@@ -1,0 +1,358 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Feb  6 21:04:29 2019
+
+@author: kvish
+"""
+
+###############################################################
+import pytesseract
+from PIL import Image
+#These are configuration file indicating the executable path for tesseact
+pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files (x86)/Tesseract-OCR/tesseract.exe'
+tessdata_dir_config = '-c preserve_interword_spaces=1 --tessdata-dir "C:\\Program Files (x86)\\Tesseract-OCR\\tessdata"'
+#Here we can specify the language of document using “lang “ option by default it is English if we want #more than one language 
+#we can specify by lang=”eng+fra” for English and French
+#here we need to give relevant path for image file and specify the config which we defined above
+#Sco2_Final=(pytesseract.image_to_string(Image.open("C:\\Users\\kvish\\Desktop\\CHAITU\\NLP\\Project_1\\sample2\\soc2.jpg"),config=tessdata_dir_config,lang='fra'))
+
+import os
+from wand.image import Image as wi
+import io
+
+input_path=r'C:\Users\kvish\Desktop\CHAITU\NLP\Resume analysis'
+output_path=r'C:\Users\kvish\Desktop\CHAITU\NLP\resumes_text'
+
+
+def pdf_save_text(in_path,out_path):
+    
+    for file in os.listdir(input_path):
+        Pdf_pages = wi(filename=input_path+'\\'+file, resolution=300)
+        Pdf_pages=Pdf_pages.convert("jpeg")
+        text=[]
+        for img in Pdf_pages.sequence:
+            pdf=wi(image=img)
+            tes=pdf.make_blob('jpeg')
+            im=Image.open(io.BytesIO(tes))
+            dd=pytesseract.image_to_string(im,config=tessdata_dir_config,lang='fra')
+            text.append(dd)
+        final_text=''.join(str(r) for v in text for r in v)
+        with open(output_path+"\\"+file+".txt","w+") as f:
+            f.write(final_text)
+    
+        
+pdf_save_text(input_path,output_path)        
+        
+    
+
+Pdf_pages = wi(filename=pf_path, resolution=300)
+Pdf_pages=Pdf_pages.convert("jpeg")
+for img in Pdf_pages.sequence:
+    text=[]
+    pdf=wi(image=img)
+    tes=pdf.make_blob('jpeg')
+    im=Image.open(io.BytesIO(tes))
+    dd=pytesseract.image_to_string(im,config=tessdata_dir_config,lang='fra')
+    text.append(dd)
+final_text=''.join(str(r) for v in text for r in v)
+
+
+
+##################################################################################################
+    
+    
+
+     
+    
+    #dd=pytesseract.image_to_string(PI.open(io.BytesIO(image)).convert('RGB'),config=tessdata_dir_config,lang='fra')
+    #image_filename=os.path.splitext(os.path.basename(pf_path))[0]
+    #image_filename = '{}-{}.jpg'.format(image_filename, i)
+    #image_filename = os.path.join(output_path, image_filename)
+    #image.save(filename=image_filename) 
+
+import tempfile
+pp=tempfile.NamedTemporaryFile(suffix='.tif')
+
+with tempfile.NamedTemporaryFile(suffix='.jpg',delete=True) as d:
+    print(d)
+    
+ 
+    
+    
+    
+    
+    
+
+
+os.path.splitext(os.path.basename(pf_path))[0]
+image_filename = '{}-{}.png'.format(image_filename, i)
+image_filename = os.path.join(output_path, image_filename)
+img.save(filename=image_filename)    
+
+
+image_filename=os.path.splitext(os.path.basename(pf_path))[0]
+image_filename = '{}-{}.png'.format(image_filename, 1)
+image_filename = os.path.join(output_path, image_filename)
+    
+    
+for i in os.listdir(input_path):
+    print(input_path+'\\'+i)    
+    
+    
+
+
+resume_1=open(r'C:\Users\kvish\Desktop\CHAITU\NLP\resumes_text\Abdelhafid.pdf.txt','r')
+ts3=resume_1.readlines()
+
+
+final_text=''.join(str(ts) for v in text for r in v)
+final = final_text.replace("\\n", "")
+ts=str(ts)
+ts = ts.replace("\\n", "")
+
+
+sentence = ' hello        apple  '
+sentence.replace(" ","")
+
+
+list1 = [1, 2, 3]
+str1 = ' '.join(str(e) for e in ts3)
+print(str1)
+
+
+
+from nltk.tokenize import word_tokenize, sent_tokenize
+from nltk.corpus import stopwords
+from  nltk import pos_tag
+
+filtered_sentence = []
+
+sent=sent_tokenize(str1)
+
+stop_words = set(stopwords.words('french')) 
+
+for se in sent:
+    word=word_tokenize(se)
+    for wr in word:
+        if wr not in stop_words:
+            filtered_sentence.append(wr.lower())
+    
+
+stop_words = set(stopwords.words('french'))
+
+text = word_tokenize("and now for something completely different")
+nltk.pos_tag(text)
+
+
+
+text = "to be or not to be"
+tokens = nltk.word_tokenize(text)
+bigrm = nltk.bigrams(tokens)
+print(*map(' '.join, bigrm), sep=', ')
+
+##################################
+
+#############################################################
+input_fo=r'C:\Users\kvish\Desktop\CHAITU\NLP\resumes_text'
+dict_1={}
+import os 
+from nltk.tokenize import word_tokenize, sent_tokenize
+from nltk.corpus import stopwords
+from  nltk import pos_tag
+
+stop_words = set(stopwords.words('french'))
+
+def store_dict(folder_name):
+    for file in os.listdir(folder_name):
+        
+        name=file.split('.')[0]
+        resume=open(folder_name+"\\"+file)
+        ts3=resume.readlines()
+        
+        #final_text=''.join(str(r) for v in ts3 for r in v)
+        str1 = ' '.join(str(e) for e in ts3)
+        sent=sent_tokenize(str1)
+        filtered_text=[]
+        for se in sent:
+            word=word_tokenize(se)
+            for wr in word:
+                if wr not in stop_words:
+                    filtered_text.append(wr.lower())
+        dict_1[name]=filtered_text         
+
+
+store_dict(input_fo)
+
+############################################################
+
+
+
+#############################################
+fe="damien carol.pdf.txt"     
+name,ext,r=fe.split(".")   
+
+
+for file in os.listdir(r'C:\Users\kvish\Desktop\test2'):
+    name=file.split('.')[0]
+    print(name)
+
+dt={}
+dt[name] =["a","d"]    
+       
+
+
+##################33
+#we have to search the dictionary
+
+import nltk
+
+from nltk import word_tokenize 
+from nltk.util import ngrams
+
+
+text = ['cant railway station', 'citadel hotel', 'police stn']
+for line in text:
+    token = nltk.word_tokenize(line)
+    bigram = list(ngrams(token, 2)) 
+    
+str(ngrams(["hr","gr","sdfs","sdfs","sdfs"],2))
+lst=['ingénieur', 'd', '’', 'études', 'java', 'jee', '``', 'lorsaue', 'deux', 'forces', 'iointes', '.', 'efficacité', 'double', "''", 'alexis', 'zakhargevsky', 'résidence', 'st', 'joseph', 'bat', 'a1', '221', ',', 'rue', 'albert', 'camus', '06700', 'saint', 'laurent', 'du', 'var', 'compétences', 'isaac', 'newton', 'nationalité', 'française', 'permis', 'b', '06', '37', '67', '5212', 'a.zakhar', '@', 'free.fr', 'expériences', 'professionnelles', 'java', '8', ',', 'postgresql', '9', ',', 'eclipse', 'neon', '3', ',', 'struts', '1', ',', 'restful', ',', 'javascript', ',', 'méthode', 'agile', ',', 'jira', ',', 'redmine', 'java', '6', ',', 'java', '7', ',', 'spring', 'batch', '3', ',', 'oracle', ',', 'postgresql', ',', 'netbean', '8', ',', 'eclipse', 'neon', ',', 'hg', 'tortoise', ',', 'sonar', ',', 'mercurial', ',', 'hp', 'qc', 'center', ',', 'git', 'java', '7', ',', 'spring', ',', 'hibernate', ',', 'postgresql', '9', ',', 'svn', ',', 'jaxb', ',', 'xml', ',', 'eclipse', ',', 'linux', ',', 'design', 'patterns', ',', 'uml', ',', 'modelio3', ',', 'ant', 'java/jee', ',', 'maven', '3', ',', 'spring', ',', 'hibernate', ',', 'struts', '2', ',', 'struts2-jquery', ',', 'tiles', '2', ',', 'eclipse', ',', 'postgresql', '9', ',', 'junit', ',', 'gwt', '2', ',', 'serveur', 'tomcat', '7', ',', 'photoshop', ',', 'uml', ',', 'windows', 'xp', 'xml', ',', 'php', '5', ',', 'windows', 'xp', 'm340', 'unity', 'pro', ',', 'movicon', '11', ',', 'java', '(', 'applet', ')', ',', 'javascript', ',', 'xml', ',', 'crystal', 'report', 'xl', 'gdmc', ',', 'windows', 'xp/vista', 'php', '5', ',', 'mysql', ',', 'xml', ',', 'xslt', ',', 'css', ',', 'javascript', ',', 'ajax', ',', 'serveur', 'apache', 'java/jsp', ',', 'css', ',', 'xml', ',', 'javascript', ',', 'mysql', ',', 'uml', ',', 'serveur', 'apache/tomocat', ',', 'eclipse', 'xml', ',', 'xslt', ',', 'php', '4', ',', 'mysql', 'informatiques', 'et', 'webmaster', ',', 'domotique', 'ingénieur', 'etudes', 'java', ',', 'gfi', '(', 'cdd', ')', 'sophia-antipolis', '(', '06', ')', 'maintenance', 'évolution', 'renfort', '’', 'appoint', 'application', 'web', '’', 'accoss', ':', 'le', 'portail', 'partenaire', '.', 'ecoute', ',', 'collaboration', ',', 'acquisition', '’', 'existant', '.', 'ajout', 'modification', 'composants', "l'application", '.', 'tests', 'non', 'régression', '.', 'ingénieur', 'etudes', 'java', ',', 'atimic', '(', 'cdi', ')', 'lyon', '(', '69', ')', 'maintenance', 'évolution', 'logiciel', 'java', ',', 'airbus', ',', 'planification', '’', 'assemblage', '’', 'avion', 'cotraitance', '.', 'ecoute', ',', 'collaboration', ',', 'acquisition', '’', 'existant', '.création', '’', 'module', 'paiement', 'source', 'cnam', '.', 'le', 'tout', 'bonne', 'collaboration', '’', 'équipe', '.', 'réalisation', '’', 'évolutions', 'ethik', ',', 'application', 'société', '.', 'développeur', 'java', ',', 'dcns', '(', 'cdd', ')', 'toulon', 'mourillon', '(', '83', ')', '-', '1000', 'pers', 'rétro-ingénierie', '’', 'produit', 'système', 'informations', '&', 'communication', ':', 'naos', 'réalisé', '8', 'ans', '.', 'analyse', 'code', 'existant', ',', 'synthèse', 'regroupement', 'modules', 'autonomes', '.', 'développement', '’', 'module', '’', 'import', 'données', '.', 'forte', 'motivation', 'réussir', 'mission', '.', 'habilitation', 'confidentiel', 'défense', '.', 'développeur', ',', 'capgemini', '(', 'cdd', ')', '06/2011', '06/2012', 'nice', '(', '06', ')', '-', 'agence', '100', 'pers', 'développement', '’', 'produit', 'quizzweb', 'afin', 'tester', 'les', 'compétences', 'techniques', 'futurs', 'collaborateurs', 'réalisé', 'java/jee', '.', 'ecoute', 'besoin', 'client', 'synthèse', '.', 'force', 'proposition', 'tout', 'long', 'différentes', 'phases', 'développement', 'produit', '.', 'réalisation', 'tests', 'unitaires', 'junit', '4', '.', 'développeur', ',', 'e-quadra', '(', 'cdd', ')', '03/2009', '06/2009', 'sophia-antipolis', '(', '06', ')', 'développement', ':', 'outil', 'web', 'gestion', 'intranet', '(', 'back', 'office', ')', 'internet', '(', 'front', 'office', ')', 'xml', 'moteur', 'externe', 'développé', 'php', '5', '.', 'ecoute', 'besoin', 'analyse', 'faisabilité', '.', 'chef', 'projet', ',', 'intelimedia', '(', 'cdd', ')', '11/2007', '02/2009', 'cagnes', 'mer', '(', '06', ')', '-', '4', 'pers', 'conduite', 'projet', ',', 'création', '’', 'produit', 'domotique', 'gestion', 'utilitaires', 'salle', 'serveur', 'automates', 'schneider', 'm340', 'création', 'supervision', 'propriétaires', 'web', 'travers', 'double', 'compétence', '.', 'mise', 'place', 'communications', 'réseau', '.', 'mise', 'œuvre', '’', 'système', 'bi', '’', 'aide', '’', 'outils', 'reporting', '.', 'chef', 'projet', ',', 'anep', 'boissy', 'st', 'léger', '(', '94', ')', '-', '20', 'pers', 'conduite', 'projet', ',', 'écoute', 'besoin', ',', 'analyse', 'synthèse', ',', 'développement', ',', 'refonte', ',', 'gestion', 'site', 'internet', 'intranet', 'société', ',', 'ainsi', 'plusieurs', 'intranet', 'consultation', '’', 'alarmes', 'les', 'clients', 'société', '.', 'développeur', ',', 'sud', 'convergences', '(', 'indépendant', ')', '11/2005', '11/2006', 'sophia-antipolis', '(', '06', ')', '-', '4', 'pers', 'développement', '’', 'outil', 'intranet', 'gestion', 'consultants', 'cadre', '’', 'activité', 'indépendante', '.', 'négociation', 'coûts', 'délais', ',', 'étude', 'réalisation', 'projet', 'perspective', '’', 'extension', 'future', 'extranet', 'navigation', 'les', 'consultants', 'liés', 'société', '.', 'responsable', 'technique', ',', 'awisa', '(', 'cdd', ')', 'saint-auban', '(', '06', ')', '—', '6', 'pers', 'responsable', 'technique', '’', 'étude', 'déploiement', '’', 'réseau', 'sans', 'fil', 'haut', 'débit', '.', 'analyse', 'technologies', 'appropriées', '(', 'site', '2200', 'kn', '?', ')', '.', 'recherche', 'matériels', 'négociations', 'auprès', 'fournisseurs', '.', 'proposition', 'solutions', '.', 'création', 'futur', 'site', 'web', '’', 'association', '.', 'intégration', '’', 'module', 'paiement', 'ligne', 'les', 'futurs', 'abonnés', '.', '01/2018', '04/2018', '01/2016', '11/2017', '09/2013', '08/2014', '03/2007', '07/2007', '09/2004', '08/2005compétences', 'expériences', 'professionnelles', 'développeur', ',', 'thalesaleniaspace', '(', 'cdd', ')', '12/2003', '06/2004', 'cannes', '(', '06', ')', '-', '1800', 'pers', 'développement', 'technique', '’', 'projet', 'partenariat', 'commercialisation', '’', 'produit', 'télémédecine', 'satellite', '’', 'arrière', 'pays', 'niçois', '.', 'recherche', 'sous', 'produits', 'possibles', ',', 'négociation', 'partenaires', '(', 'philips', 'médical', ',', '..…', '.', ')', '.', 'déploiement', '’', 'application', 'expliquer', 'les', '2', ',', 'ecli', 'java', '2', ',', 'eclipse', 'difficultés', 'clients', 'impatient', ',', 'formation', ',', 'étude', 'leurs', 'besoins', '.', 'adaptation', 'logiciel', 'java', 'eclipse', '.', 'développeur', ',', 'stonesoft', 'france', '(', 'stage', ')', '03/2002', '08/2002', 'sophia', 'antipolis', '(', '06', ')', '-', '45', 'pers', 'responsable', 'réalisation', '’', 'intranet', 'gestion', 'congés', 'payés', 'rtt', '.', 'synthèse', 'textes', 'java', '2/jsp', ',', 'mysql', ',', 'uml', ',', 'serveur', 'tomcat', ',', 'convention', 'syntec', 'fins', 'automatisation', '.', 'réalisation', 'cdc', 'concepts', 'graphiques', '.', 'organisation', 'animation', 'réunions', 'travail', ',', 'création', 'bdd', 'développements', '.', 'photeshop', 'réalisation', '’', 'procédure', 'formation', '’', 'outil', '.', 'développeur', ',', 'cyberdeal', '(', 'stage', ')', '01/2001', '06/2001', 'saint', 'laurent', 'var', '(', '06', ')', '—', '15', 'pers', 'php', '4', ',', 'javascript', ',', 'mysql', ',', 'dreamweaver', ',', 'réalisation', '’', 'site', '’', 'e-business', 'bout', 'bout', 'autonomie', '.', 'création', 'cdc', ',', 'mise', 'œuvre', 'photoshop', 'concepts', 'graphiques', ',', 'programmation', ',', 'déploiement', '.', 'formations', '2015', 'bac+5', 'ingénieur', 'arts', 'métiers', '(', 'groupe', 'a', ')', 'ingénierie', 'informatique', '(', 'mention', 'bien', ')', '—', 'cnam', 'nice', '2015', 'bulats', 'cambridge', 'english', ':', 'anglais', 'général', 'b2', ',', 'écoute', 'c1', '(', 'avancé', ')', '—', 'wse', 'nice', '2006', 'dest', '(', 'bac', '+', '4', ')', 'ingénierie', 'informatique', '-', 'cnam', '(', 'cours', 'soir', ')', '—', 'iut', 'nice', '2002', 'lpmi', 'licence', 'pro', '.', 'des', 'métiers', 'informatiques', '(', 'multimédia', ',', 'internet', ')', '—', 'université', 'nice-sophia', '1984', 'dut', 'génie', 'electriaue', '(', 'electroniaue', '.', 'automatisme', 'informatiaue', 'industrielle', ')', '—', 'iut', 'nice', 'perfectionnement', 'java/jee', '7', '03', '05/2015', 'lyon', '(', '69', ')', 'java', '7', ',', 'jsf', '2.2', ',', 'ejb', ',', 'jpa', ',', 'postgresdql', '9', ',', 'perfectionnement', 'les', 'technologies', 'jav', 'a/jee', '7', ',', 'notamment', 'jsf', '2.2', 'jpa', 'petits', 'mysql', ',', 'netbean', '8', ',', 'design', 'patterns', ',', 'uml', 'projets', 'mise', 'œuvre', '.', 'ecoute', ',', 'collaboration', ',', 'acquisition', 'nouveautés', ',', 'tout', 'enthousiasme', 'quotidien', 'formation', '.', 'perfectionnement', 'java/jee', '10', '12/2012', 'sophia-antipolis', '(', '06', ')', 'stage', 'pratique', 'perfectionnement', 'les', 'technologies', 'jav', 'a/jee', 'projets', 'binôme', '.', 'ecoute', ',', 'ava/jee', ',', 'spring', ',', 'windows', '7', '.', 'à', '.', '2', ':', '4', 'j', 'j', 'pre', 'collaboration', ',', 'ouverture', 'nouveautés', ',', 'tout', 'enthousiasme', 'quotidien', 'stage', '.', 'mais', 'aussi', 'expériences', 'professionnelles', 'maintenance', 'automatismes', 'ésrgee', ',', 'automaticien', ',', 'iconix', '(', 'stage', ')', '01/2010', '12/2010', 'supervision', 'négociation', 'technicien', 'maintenance', 'production', ',', 'glaxo', 'wellcome', '(', 'cdi', ')', 'conduite', 'projet', '11/1989', '12/1999', 'sophia', 'antipolis', '(', '06', ')', 'collaboration', 'dynamique', 'technicien', 'maintenance', 'clientèle', ',', 'anacomp', 's.a', '(', 'cdd', ')', 'créatif', '09/1988', '05/1989', 'paris', '(', '75', ')', 'polyvalent', 'technicien', ',', '|.b.m', 'france', '(', 'cdd', ')', '1986', 'la', 'gaude', '(', '06', ')', 'informations', 'complement', 'aires', 'langues', 'parlées', 'écrites', 'e', 'anglais', ':', 'perfectionnement', ',', 'niveau', 'actuel', ':', 'intermédiaire', 'avancé', 'avancé', '(', 'bulats', '68', '%', ')', 'savoirs', 'complémentaires', 'e', 'intelligence', 'artificielle', ',', 'architecture', 'système', ',', 'compression', '’', 'images', ',', 'tests', 'validations', ',', 'gestion', 'économique', ',', 'programmation', 'automates', '.', 'centres', '’', 'intérêts', 'e', 'volley', 'ball', ':', 'pratique', 'encadrement', '(', 'esprit', '’', 'équipe', 'fort', ')', '.', 'e', 'littérature', 'informatique', 'scientifique', ',', 'conception', 'logiciels', 'intranet', '.']
+skl=["windows","pro","java"]
+count=0
+dict2['ALEXIS2']= ['ingénieur', 'd', '’', 'études', 'java', 'jee', '``', 'lorsaue', 'deux', 'forces', 'iointes', '.', 'efficacité', 'double', "''", 'alexis', 'zakhargevsky', 'résidence', 'st', 'joseph', 'bat', 'a1', '221', ',', 'rue', 'albert', 'camus', '06700', 'saint', 'laurent', 'du', 'var', 'compétences', 'isaac', 'newton', 'nationalité', 'française', 'permis', 'b', '06', '37', '67', '5212', 'a.zakhar', '@', 'free.fr', 'expériences', 'professionnelles', 'java', '8', ',', 'postgresql', '9', ',', 'eclipse', 'neon', '3', ',', 'struts', '1', ',', 'restful', ',', 'javascript', ',', 'méthode', 'agile', ',', 'jira', ',', 'redmine', 'java', '6', ',', 'java', '7', ',', 'spring', 'batch', '3', ',', 'oracle', ',', 'postgresql', ',', 'netbean', '8', ',', 'eclipse', 'neon', ',', 'hg', 'tortoise', ',', 'sonar', ',', 'mercurial', ',', 'hp', 'qc', 'center', ',', 'git', 'java', '7', ',', 'spring', ',', 'hibernate', ',', 'postgresql', '9', ',', 'svn', ',', 'jaxb', ',', 'xml', ',', 'eclipse', ',', 'linux', ',', 'design', 'patterns', ',', 'uml', ',', 'modelio3', ',', 'ant', 'java/jee', ',', 'maven', '3', ',', 'spring', ',', 'hibernate', ',', 'struts', '2', ',', 'struts2-jquery', ',', 'tiles', '2', ',', 'eclipse', ',', 'postgresql', '9', ',', 'junit', ',', 'gwt', '2', ',', 'serveur', 'tomcat', '7', ',', 'photoshop', ',', 'uml', ',', 'windows', 'xp', 'xml', ',', 'php', '5', ',', 'windows', 'xp', 'm340', 'unity', 'pro', ',', 'movicon', '11', ',', 'java', '(', 'applet', ')', ',', 'javascript', ',', 'xml', ',', 'crystal', 'report', 'xl', 'gdmc', ',', 'windows', 'xp/vista', 'php', '5', ',', 'mysql', ',', 'xml', ',', 'xslt', ',', 'css', ',', 'javascript', ',', 'ajax', ',', 'serveur', 'apache', 'java/jsp', ',', 'css', ',', 'xml', ',', 'javascript', ',', 'mysql', ',', 'uml', ',', 'serveur', 'apache/tomocat', ',', 'eclipse', 'xml', ',', 'xslt', ',', 'php', '4', ',', 'mysql', 'informatiques', 'et', 'webmaster', ',', 'domotique', 'ingénieur', 'etudes', 'java', ',', 'gfi', '(', 'cdd', ')', 'sophia-antipolis', '(', '06', ')', 'maintenance', 'évolution', 'renfort', '’', 'appoint', 'application', 'web', '’', 'accoss', ':', 'le', 'portail', 'partenaire', '.', 'ecoute', ',', 'collaboration', ',', 'acquisition', '’', 'existant', '.', 'ajout', 'modification', 'composants', "l'application", '.', 'tests', 'non', 'régression', '.', 'ingénieur', 'etudes', 'java', ',', 'atimic', '(', 'cdi', ')', 'lyon', '(', '69', ')', 'maintenance', 'évolution', 'logiciel', 'java', ',', 'airbus', ',', 'planification', '’', 'assemblage', '’', 'avion', 'cotraitance', '.', 'ecoute', ',', 'collaboration', ',', 'acquisition', '’', 'existant', '.création', '’', 'module', 'paiement', 'source', 'cnam', '.', 'le', 'tout', 'bonne', 'collaboration', '’', 'équipe', '.', 'réalisation', '’', 'évolutions', 'ethik', ',', 'application', 'société', '.', 'développeur', 'java', ',', 'dcns', '(', 'cdd', ')', 'toulon', 'mourillon', '(', '83', ')', '-', '1000', 'pers', 'rétro-ingénierie', '’', 'produit', 'système', 'informations', '&', 'communication', ':', 'naos', 'réalisé', '8', 'ans', '.', 'analyse', 'code', 'existant', ',', 'synthèse', 'regroupement', 'modules', 'autonomes', '.', 'développement', '’', 'module', '’', 'import', 'données', '.', 'forte', 'motivation', 'réussir', 'mission', '.', 'habilitation', 'confidentiel', 'défense', '.', 'développeur', ',', 'capgemini', '(', 'cdd', ')', '06/2011', '06/2012', 'nice', '(', '06', ')', '-', 'agence', '100', 'pers', 'développement', '’', 'produit', 'quizzweb', 'afin', 'tester', 'les', 'compétences', 'techniques', 'futurs', 'collaborateurs', 'réalisé', 'java/jee', '.', 'ecoute', 'besoin', 'client', 'synthèse', '.', 'force', 'proposition', 'tout', 'long', 'différentes', 'phases', 'développement', 'produit', '.', 'réalisation', 'tests', 'unitaires', 'junit', '4', '.', 'développeur', ',', 'e-quadra', '(', 'cdd', ')', '03/2009', '06/2009', 'sophia-antipolis', '(', '06', ')', 'développement', ':', 'outil', 'web', 'gestion', 'intranet', '(', 'back', 'office', ')', 'internet', '(', 'front', 'office', ')', 'xml', 'moteur', 'externe', 'développé', 'php', '5', '.', 'ecoute', 'besoin', 'analyse', 'faisabilité', '.', 'chef', 'projet', ',', 'intelimedia', '(', 'cdd', ')', '11/2007', '02/2009', 'cagnes', 'mer', '(', '06', ')', '-', '4', 'pers', 'conduite', 'projet', ',', 'création', '’', 'produit', 'domotique', 'gestion', 'utilitaires', 'salle', 'serveur', 'automates', 'schneider', 'm340', 'création', 'supervision', 'propriétaires', 'web', 'travers', 'double', 'compétence', '.', 'mise', 'place', 'communications', 'réseau', '.', 'mise', 'œuvre', '’', 'système', 'bi', '’', 'aide', '’', 'outils', 'reporting', '.', 'chef', 'projet', ',', 'anep', 'boissy', 'st', 'léger', '(', '94', ')', '-', '20', 'pers', 'conduite', 'projet', ',', 'écoute', 'besoin', ',', 'analyse', 'synthèse', ',', 'développement', ',', 'refonte', ',', 'gestion', 'site', 'internet', 'intranet', 'société', ',', 'ainsi', 'plusieurs', 'intranet', 'consultation', '’', 'alarmes', 'les', 'clients', 'société', '.', 'développeur', ',', 'sud', 'convergences', '(', 'indépendant', ')', '11/2005', '11/2006', 'sophia-antipolis', '(', '06', ')', '-', '4', 'pers', 'développement', '’', 'outil', 'intranet', 'gestion', 'consultants', 'cadre', '’', 'activité', 'indépendante', '.', 'négociation', 'coûts', 'délais', ',', 'étude', 'réalisation', 'projet', 'perspective', '’', 'extension', 'future', 'extranet', 'navigation', 'les', 'consultants', 'liés', 'société', '.', 'responsable', 'technique', ',', 'awisa', '(', 'cdd', ')', 'saint-auban', '(', '06', ')', '—', '6', 'pers', 'responsable', 'technique', '’', 'étude', 'déploiement', '’', 'réseau', 'sans', 'fil', 'haut', 'débit', '.', 'analyse', 'technologies', 'appropriées', '(', 'site', '2200', 'kn', '?', ')', '.', 'recherche', 'matériels', 'négociations', 'auprès', 'fournisseurs', '.', 'proposition', 'solutions', '.', 'création', 'futur', 'site', 'web', '’', 'association', '.', 'intégration', '’', 'module', 'paiement', 'ligne', 'les', 'futurs', 'abonnés', '.', '01/2018', '04/2018', '01/2016', '11/2017', '09/2013', '08/2014', '03/2007', '07/2007', '09/2004', '08/2005compétences', 'expériences', 'professionnelles', 'développeur', ',', 'thalesaleniaspace', '(', 'cdd', ')', '12/2003', '06/2004', 'cannes', '(', '06', ')', '-', '1800', 'pers', 'développement', 'technique', '’', 'projet', 'partenariat', 'commercialisation', '’', 'produit', 'télémédecine', 'satellite', '’', 'arrière', 'pays', 'niçois', '.', 'recherche', 'sous', 'produits', 'possibles', ',', 'négociation', 'partenaires', '(', 'philips', 'médical', ',', '..…', '.', ')', '.', 'déploiement', '’', 'application', 'expliquer', 'les', '2', ',', 'ecli', 'java', '2', ',', 'eclipse', 'difficultés', 'clients', 'impatient', ',', 'formation', ',', 'étude', 'leurs', 'besoins', '.', 'adaptation', 'logiciel', 'java', 'eclipse', '.', 'développeur', ',', 'stonesoft', 'france', '(', 'stage', ')', '03/2002', '08/2002', 'sophia', 'antipolis', '(', '06', ')', '-', '45', 'pers', 'responsable', 'réalisation', '’', 'intranet', 'gestion', 'congés', 'payés', 'rtt', '.', 'synthèse', 'textes', 'java', '2/jsp', ',', 'mysql', ',', 'uml', ',', 'serveur', 'tomcat', ',', 'convention', 'syntec', 'fins', 'automatisation', '.', 'réalisation', 'cdc', 'concepts', 'graphiques', '.', 'organisation', 'animation', 'réunions', 'travail', ',', 'création', 'bdd', 'développements', '.', 'photeshop', 'réalisation', '’', 'procédure', 'formation', '’', 'outil', '.', 'développeur', ',', 'cyberdeal', '(', 'stage', ')', '01/2001', '06/2001', 'saint', 'laurent', 'var', '(', '06', ')', '—', '15', 'pers', 'php', '4', ',', 'javascript', ',', 'mysql', ',', 'dreamweaver', ',', 'réalisation', '’', 'site', '’', 'e-business', 'bout', 'bout', 'autonomie', '.', 'création', 'cdc', ',', 'mise', 'œuvre', 'photoshop', 'concepts', 'graphiques', ',', 'programmation', ',', 'déploiement', '.', 'formations', '2015', 'bac+5', 'ingénieur', 'arts', 'métiers', '(', 'groupe', 'a', ')', 'ingénierie', 'informatique', '(', 'mention', 'bien', ')', '—', 'cnam', 'nice', '2015', 'bulats', 'cambridge', 'english', ':', 'anglais', 'général', 'b2', ',', 'écoute', 'c1', '(', 'avancé', ')', '—', 'wse', 'nice', '2006', 'dest', '(', 'bac', '+', '4', ')', 'ingénierie', 'informatique', '-', 'cnam', '(', 'cours', 'soir', ')', '—', 'iut', 'nice', '2002', 'lpmi', 'licence', 'pro', '.', 'des', 'métiers', 'informatiques', '(', 'multimédia', ',', 'internet', ')', '—', 'université', 'nice-sophia', '1984', 'dut', 'génie', 'electriaue', '(', 'electroniaue', '.', 'automatisme', 'informatiaue', 'industrielle', ')', '—', 'iut', 'nice', 'perfectionnement', 'java/jee', '7', '03', '05/2015', 'lyon', '(', '69', ')', 'java', '7', ',', 'jsf', '2.2', ',', 'ejb', ',', 'jpa', ',', 'postgresdql', '9', ',', 'perfectionnement', 'les', 'technologies', 'jav', 'a/jee', '7', ',', 'notamment', 'jsf', '2.2', 'jpa', 'petits', 'mysql', ',', 'netbean', '8', ',', 'design', 'patterns', ',', 'uml', 'projets', 'mise', 'œuvre', '.', 'ecoute', ',', 'collaboration', ',', 'acquisition', 'nouveautés', ',', 'tout', 'enthousiasme', 'quotidien', 'formation', '.', 'perfectionnement', 'java/jee', '10', '12/2012', 'sophia-antipolis', '(', '06', ')', 'stage', 'pratique', 'perfectionnement', 'les', 'technologies', 'jav', 'a/jee', 'projets', 'binôme', '.', 'ecoute', ',', 'ava/jee', ',', 'spring', ',', 'windows', '7', '.', 'à', '.', '2', ':', '4', 'j', 'j', 'pre', 'collaboration', ',', 'ouverture', 'nouveautés', ',', 'tout', 'enthousiasme', 'quotidien', 'stage', '.', 'mais', 'aussi', 'expériences', 'professionnelles', 'maintenance', 'automatismes', 'ésrgee', ',', 'automaticien', ',', 'iconix', '(', 'stage', ')', '01/2010', '12/2010', 'supervision', 'négociation', 'technicien', 'maintenance', 'production', ',', 'glaxo', 'wellcome', '(', 'cdi', ')', 'conduite', 'projet', '11/1989', '12/1999', 'sophia', 'antipolis', '(', '06', ')', 'collaboration', 'dynamique', 'technicien', 'maintenance', 'clientèle', ',', 'anacomp', 's.a', '(', 'cdd', ')', 'créatif', '09/1988', '05/1989', 'paris', '(', '75', ')', 'polyvalent', 'technicien', ',', '|.b.m', 'france', '(', 'cdd', ')', '1986', 'la', 'gaude', '(', '06', ')', 'informations', 'complement', 'aires', 'langues', 'parlées', 'écrites', 'e', 'anglais', ':', 'perfectionnement', ',', 'niveau', 'actuel', ':', 'intermédiaire', 'avancé', 'avancé', '(', 'bulats', '68', '%', ')', 'savoirs', 'complémentaires', 'e', 'intelligence', 'artificielle', ',', 'architecture', 'système', ',', 'compression', '’', 'images', ',', 'tests', 'validations', ',', 'gestion', 'économique', ',', 'programmation', 'automates', '.', 'centres', '’', 'intérêts', 'e', 'volley', 'ball', ':', 'pratique', 'encadrement', '(', 'esprit', '’', 'équipe', 'fort', ')', '.', 'e', 'littérature', 'informatique', 'scientifique', ',', 'conception', 'logiciels', 'intranet', '.']
+for i in skl:
+    for key,value in enumerate(dict2):
+      print(type(value))
+      print(len(value))
+            
+res=[]
+for key, val in enumerate(dict2):
+    if 'java' in val:
+        res.append(val)
+        
+        
+dt={"vis":['ingénieur', 'd', '’', 'études', 'java', 'jee', '``','lorsaue', 'deux', 'forces']}     
+for key,value in enumerate(dt):
+    print(type(value))
+    print(len(value))
+    
+    
+    
+listofskills=["java ","big data","machine ","learning"]   
+for i in listofskills:
+    print(i.strip())
+    
+ls=[[]]    
+count=0
+for key, value in dict2.items():
+    count=0
+    for i in listofskills:  
+        if i.split()
+        if i.strip() in value:
+            count=count+1
+            continue
+        
+    
+    if count>0:
+        ls.append([key,count])
+        
+        
+
+
+
+
+
+
+
+    
+    
+    
+for i in final_list:
+    for val,key enumerate(i):
+        
+for i,v in dict2.items():
+    print(len(v))
+
+
+###################search the skills#####################333    
+      
+def search_skills(list_of_skills):
+    list_of_candidates=[[]]
+    for key,val in dict_1.items():
+        count=0
+        for i in list_of_skills:
+            i=i.strip()
+            if len(i.split(" "))==1:
+                if i in val:
+                    count=count+1
+            elif len(i.split(" "))==2:
+                dd=i.split(" ")
+                if dd[0] in val and dd[1] in val:
+                    if abs(val.index(dd[0])-val.index(dd[1]))==1:
+                        count=count+1
+        if count>0:
+            list_of_candidates.append([key,count])
+    return list_of_candidates        
+            
+            
+        
+my_can=search_skills(["java ","big data","c++","machine learning","mysql","deep learning","javascript","eclipse","postgresql","méthode agile","spring","oracle"])            
+
+import pandas as pd
+
+candidates=pd.DataFrame(my_can)
+
+candidates.columns=["Name","Number_of_matches"]
+        
+import matplotlib.pyplot as plt
+
+
+plt.plot(candidates["Name"],candidates["Number_of_matches"])
+
+
+candidates.plot()
+%matplotlib inline
+candidates.plot(x="Name", y="Number_of_matches", kind="bar")
+plt.show()
+candidates.sort_values(by=['Number_of_matches'],ascending=False,inplace=True)     
+
+   
+        
+        
+        
+    
+listofskills=["java ","big data","machine","design patterns"]  
+listofskills.index("big")
+listofskills.index("data")
+
+
+lst
+
+fro i in listofskills:
+    
+ii=" big data"
+ii=ii.strip()
+
+vis="java"
+dd=len(vis.split(" ") )
+
+if dd[0] in listofskills and dd[1] in listofskills:
+    if abs(listofskills.index(dd[0])-listofskills.index(dd[1]))==1:
+        print("yes")
+    
+count=0
+for i in listofskills:
+    i=i.strip()
+    if len(i.split(" "))==1:
+        if i in lst:
+            count=count+1  
+    elif len(i.split(" "))==2:
+        dd=i.split(" ")
+        if dd[0] in lst and dd[1] in lst:
+            if abs(lst.index(dd[0])-lst.index(dd[1]))==1:
+                count=count+1
+        
+        
+        
+        
+    
